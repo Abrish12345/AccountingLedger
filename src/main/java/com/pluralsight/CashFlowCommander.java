@@ -6,6 +6,8 @@ import java.time.LocalTime;
 import java.util.Locale;
 import java.util.Scanner;
 
+import static com.pluralsight.AccountingLedgerApp.saveTransactionToCsv;
+
 public class CashFlowCommander {
     public static void main(String[] args) {
 
@@ -45,15 +47,15 @@ public class CashFlowCommander {
                     System.out.println("Enter amount: ");
                     Double amount= Double.parseDouble(myScanner.nextLine()); //parse amount to double
 
-                    System.out.println("you sucessfuly deposited to your account.");
+                    System.out.println("you successfully deposited to your account.");
 
                     //capture the current date and time
                     LocalDate date= LocalDate.now();
-                    LocalTime time= LocalTime.now();
+                    LocalTime time= LocalTime.now().withNano(0);
 
                     Transaction transaction= new Transaction(date,time,description,vendor,amount);
 
-                    AccountingLedgerApp.saveTransactionToCsv(transaction);
+                    saveTransactionToCsv(transaction);
 
 
 
@@ -61,7 +63,38 @@ public class CashFlowCommander {
 
                     //user chose to make payment.
                 case "P":
+
+                    //Ask the user to payment description.
                     System.out.println("You chose to make a payment");
+
+                    System.out.println("Enter description: ");
+                    String paymentDescription = myScanner.nextLine();
+
+                    //Ask the user to inter the payment vendor and collect the input.
+                    System.out.println("Enter vendor: ");
+                    String paymentVendor= myScanner.nextLine();
+
+                    //Ask the user to inter the payment amount and collect the input
+                    System.out.println("Enter amount: ");
+                    Double paymentAmount= Double.parseDouble(myScanner.nextLine()); //parse amount to double
+
+
+                    //change the value in to negative
+                        paymentAmount=-paymentAmount;
+                    System.out.println("you successfully deposited to your account.");
+
+                    //capture the current date and time
+                    LocalDate paymentDate= LocalDate.now();
+                    LocalTime paymentTime= LocalTime.now().withNano(0);
+
+
+
+                    Transaction transaction1 = new Transaction(paymentDate,paymentTime,paymentDescription,paymentVendor,paymentAmount);
+
+                     
+                    saveTransactionToCsv(transaction1);
+
+                    //
 
                     break;
 
