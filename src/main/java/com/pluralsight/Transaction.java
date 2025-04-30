@@ -66,17 +66,23 @@ public class Transaction {
       //This makes it easier to print and display transaction details in a readable format.
      // Instead of a weird memory address, it displays the transaction's details nicely.
 
-    @Override
+
+    // I got this code from ai
+   @Override
     public String toString(){
         return "Transaction{" +
-                "date=" + date +
-                ", time=" + time +
-                ",description='" + description + '\'' +
-                ", vendor='" + vendor + '\''+
-                ", amount=" + amount +
+                "date=" + date + "|" +
+                " time=" + time + "|" +
+                "description='" + description + '\'' +  "|" +
+                "vendor='" + vendor + '\''+  "|" +
+                " amount=" + amount +  "|" +
                 '}';
     }
+
+
 }
+
+
 
 
 

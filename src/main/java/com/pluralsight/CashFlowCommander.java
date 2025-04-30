@@ -1,6 +1,8 @@
 package com.pluralsight;
 
 import java.io.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class CashFlowCommander {
 
@@ -38,7 +40,7 @@ public class CashFlowCommander {
             //create a file object using the path to the transaction CSV file.
             File file = new File(finalPath);
 
-            //initialize bufferedreader to read file contents.
+            //initialize buffered reader to read file contents.
             BufferedReader reader = new BufferedReader(new FileReader(file));
 
             String line;
@@ -51,14 +53,19 @@ public class CashFlowCommander {
 
                 //print out the transaction details in a readable format
                 if (parts.length==5){
-                    String date = parts[0];
-                    String time = parts[1];
+                    LocalDate date = LocalDate.parse(parts[0]);
+                    LocalTime time = LocalTime.parse(parts[1]);
                     String description = parts[2];
                     String vendor = parts[3];
-                    String amount = parts[4];
+                    double amount = Double.parseDouble(parts[4]);
 
+                    //Create a transaction object using parts
+
+                    Transaction transaction =new Transaction(date,time,description,vendor,amount);
                     // print out the transaction details in a readable format
-                    System.out.println(date + "|" + time + "|" + description + "|" + vendor + "|" + amount);
+                   // System.out.println(date + "|" + time + "|" + description + "|" + vendor + "|" + amount);
+
+                    System.out.println(transaction);
                 }
 
             }
@@ -68,7 +75,7 @@ public class CashFlowCommander {
         }catch (Exception e){
 
             //Handle any errors that occur during file reading
-            System.out.println("");
+            System.out.println("Error reading transaction");
         }
     }
 
@@ -76,10 +83,10 @@ public class CashFlowCommander {
         System.out.println("List of deposits only...");
 
         try{
-            //creat a file object using the path to the transaction CSV file.
+            //create a file object using the path to the transaction CSV file.
             File file = new File(finalPath);
 
-            //initialize bufferedreader to read file contents.
+            //initialize buffered reader to read file contents.
             BufferedReader reader = new BufferedReader(new FileReader(file));
 
             String line;
@@ -92,11 +99,20 @@ public class CashFlowCommander {
 
                 //print out the transaction details in a readable format
                 if (parts.length==5){
-                    double amount =Double.parseDouble(parts[4]);
+                    LocalDate date = LocalDate.parse(parts[0]);
+                    LocalTime time = LocalTime.parse(parts[1]);
+                    String description = parts[2];
+                    String vendor = parts[3];
+                    double amount = Double.parseDouble(parts[4]);
+
+                    //Create a transaction object using parts
+
+                    Transaction transaction =new Transaction(date,time,description,vendor,amount);
 
                     if (amount > 0){
 
-                        System.out.println(line);
+
+                        System.out.println(transaction);
                     }
                 }
 
@@ -131,20 +147,25 @@ public class CashFlowCommander {
                 String parts[] =line.split("\\|");
 
                 //ensure there are 5 parts in totall
-                if(parts.length==5){
+                if (parts.length==5){
+                    LocalDate date = LocalDate.parse(parts[0]);
+                    LocalTime time = LocalTime.parse(parts[1]);
+                    String description = parts[2];
+                    String vendor = parts[3];
+                    double amount = Double.parseDouble(parts[4]);
 
-                    //parse the amount (fifth field) in to double
-                    double amount =Double.parseDouble(parts[4]);
+                    //Create a transaction object using parts
 
+                    Transaction transaction =new Transaction(date,time,description,vendor,amount);
                     //check if the amount is negative
                     if (amount<0){
-                        System.out.println(line);
+                        System.out.println(transaction);
                     }
 
                 }
 
             }
-            //close the bufferedreader after processing is Complite.
+            //close the buffered reader after processing is Complete.
             reader.close();
 
         } catch (FileNotFoundException e) {
@@ -155,7 +176,40 @@ public class CashFlowCommander {
         }
     }
     public static void monthToDate(){
-        
+        System.out.println("Transactions from this month");
+
+        try(BufferedReader reader =new BufferedReader(new FileReader(finalPath))){
+
+            String line;
+
+            LocalDate today = LocalDate.now();
+            LocalDate firstDayOfMonth = today.withDayOfMonth(1);
+
+            //Read the file line by line
+            while ((line=reader.readLine()) !=null){
+
+                //split the line into parts using '|' as the delimiter
+                String parts[] =line.split("\\|");
+
+                //ensure there are 5 parts in totall
+                if (parts.length==5){
+                    LocalDate date = LocalDate.parse(parts[0]);
+                    LocalTime time = LocalTime.parse(parts[1]);
+                    String description = parts[2];
+                    String vendor = parts[3];
+                    double amount = Double.parseDouble(parts[4]);
+
+                    if ((date.isEqual(firstDayOfMonth) || date.isAfter(firstDayOfMonth)) && date.isBefore(today.plusDays(1))){
+                        Transaction transaction = new Transaction(date,time,description,vendor,amount);
+                        System.out.println(transaction);
+                    }
+
+                    }
+                }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
