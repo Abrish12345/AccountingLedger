@@ -171,8 +171,8 @@ public class AccountLedgerApp {
 
             //case for showing all transaction.
             case"A":
-                showAllTransaction();
 
+                showAllTransaction();
                 break;
 
             case"D":
@@ -193,10 +193,12 @@ public class AccountLedgerApp {
 
                 System.out.println("Returning to home menu...");
 
+
+
                 break;
 
             default:
-                System.out.println("Invalid choise. Please select A, D, P, R, or H.");
+                System.out.println("Invalid choose. Please select A, D, P, R, or H.");
         }
 
     }
@@ -210,7 +212,7 @@ public class AccountLedgerApp {
         System.out.println("1) Month To Date");
         System.out.println("2) Previous Month");
         System.out.println("3) Year To Date");
-        System.out.println("4) Perious Year");
+        System.out.println("4) Previous Year");
         System.out.println("5) Search By Vendor");
         System.out.println("0) Back");
 
@@ -225,22 +227,24 @@ public class AccountLedgerApp {
 
 
             case "2":
-
                 previousMonth();
+
                 break;
 
             case "3":
-
-                
+                yearToDate();
 
                 break;
             case "4":
 
                 break;
             case "5":
+                byVendor();
 
                 break;
             case "0":
+
+                reportsMenu();
 
                 break;
 
