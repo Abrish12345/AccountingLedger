@@ -225,9 +225,13 @@ public class AccountLedgerApp {
 
 
             case "2":
+
+                previousMonth();
                 break;
 
             case "3":
+
+                
 
                 break;
             case "4":
@@ -241,11 +245,6 @@ public class AccountLedgerApp {
                 break;
 
         }
-
-
-
-
-
 
 
     }

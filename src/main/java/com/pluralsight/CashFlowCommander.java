@@ -33,9 +33,10 @@ public class CashFlowCommander {
         }
 
     }
-    public static void showAllTransaction (){
+
+    public static void showAllTransaction() {
         System.out.println("Displaying all transactions...");
-        try{
+        try {
 
             //create a file object using the path to the transaction CSV file.
             File file = new File(finalPath);
@@ -46,13 +47,13 @@ public class CashFlowCommander {
             String line;
 
             //read the file line by line.
-            while ((line=reader.readLine()) !=null){
+            while ((line = reader.readLine()) != null) {
 
                 //split the line by '|' delimiter
-                String[] parts =line.split("\\|");
+                String[] parts = line.split("\\|");
 
                 //print out the transaction details in a readable format
-                if (parts.length==5){
+                if (parts.length == 5) {
                     LocalDate date = LocalDate.parse(parts[0]);
                     LocalTime time = LocalTime.parse(parts[1]);
                     String description = parts[2];
@@ -61,9 +62,9 @@ public class CashFlowCommander {
 
                     //Create a transaction object using parts
 
-                    Transaction transaction =new Transaction(date,time,description,vendor,amount);
+                    Transaction transaction = new Transaction(date, time, description, vendor, amount);
                     // print out the transaction details in a readable format
-                   // System.out.println(date + "|" + time + "|" + description + "|" + vendor + "|" + amount);
+                    // System.out.println(date + "|" + time + "|" + description + "|" + vendor + "|" + amount);
 
                     System.out.println(transaction);
                 }
@@ -72,17 +73,17 @@ public class CashFlowCommander {
 
             //close the file reader
             reader.close();
-        }catch (Exception e){
+        } catch (Exception e) {
 
             //Handle any errors that occur during file reading
             System.out.println("Error reading transaction");
         }
     }
 
-    public static void showDeposits (){
+    public static void showDeposits() {
         System.out.println("List of deposits only...");
 
-        try{
+        try {
             //create a file object using the path to the transaction CSV file.
             File file = new File(finalPath);
 
@@ -92,13 +93,13 @@ public class CashFlowCommander {
             String line;
 
             //read the file line by line.
-            while ((line=reader.readLine()) !=null){
+            while ((line = reader.readLine()) != null) {
 
                 //split the line by '|' delimiter
-                String[] parts =line.split("\\|");
+                String[] parts = line.split("\\|");
 
                 //print out the transaction details in a readable format
-                if (parts.length==5){
+                if (parts.length == 5) {
                     LocalDate date = LocalDate.parse(parts[0]);
                     LocalTime time = LocalTime.parse(parts[1]);
                     String description = parts[2];
@@ -107,9 +108,9 @@ public class CashFlowCommander {
 
                     //Create a transaction object using parts
 
-                    Transaction transaction =new Transaction(date,time,description,vendor,amount);
+                    Transaction transaction = new Transaction(date, time, description, vendor, amount);
 
-                    if (amount > 0){
+                    if (amount > 0) {
 
 
                         System.out.println(transaction);
@@ -126,7 +127,7 @@ public class CashFlowCommander {
 
     }
 
-    public static void showPayment(){
+    public static void showPayment() {
         //inform the user that payment transaction are being displayed
         System.out.println("List of payments only...");
 
@@ -136,18 +137,18 @@ public class CashFlowCommander {
             File file = new File(finalPath);
 
             //initialize bufferedreder to read file contents
-            BufferedReader reader= new BufferedReader(new FileReader(file));
+            BufferedReader reader = new BufferedReader(new FileReader(file));
 
             String line;
 
             //Read the file line by line
-            while ((line=reader.readLine()) !=null){
+            while ((line = reader.readLine()) != null) {
 
                 //split the line into parts using '|' as the delimiter
-                String parts[] =line.split("\\|");
+                String parts[] = line.split("\\|");
 
-                //ensure there are 5 parts in totall
-                if (parts.length==5){
+                //ensure there are 5 parts in total
+                if (parts.length == 5) {
                     LocalDate date = LocalDate.parse(parts[0]);
                     LocalTime time = LocalTime.parse(parts[1]);
                     String description = parts[2];
@@ -156,9 +157,9 @@ public class CashFlowCommander {
 
                     //Create a transaction object using parts
 
-                    Transaction transaction =new Transaction(date,time,description,vendor,amount);
+                    Transaction transaction = new Transaction(date, time, description, vendor, amount);
                     //check if the amount is negative
-                    if (amount<0){
+                    if (amount < 0) {
                         System.out.println(transaction);
                     }
 
@@ -168,17 +169,15 @@ public class CashFlowCommander {
             //close the buffered reader after processing is Complete.
             reader.close();
 
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-    public static void monthToDate(){
+
+    public static void monthToDate() {
         System.out.println("Transactions from this month");
 
-        try(BufferedReader reader =new BufferedReader(new FileReader(finalPath))){
+        try (BufferedReader reader = new BufferedReader(new FileReader(finalPath))) {
 
             String line;
 
@@ -186,26 +185,26 @@ public class CashFlowCommander {
             LocalDate firstDayOfMonth = today.withDayOfMonth(1);
 
             //Read the file line by line
-            while ((line=reader.readLine()) !=null){
+            while ((line = reader.readLine()) != null) {
 
                 //split the line into parts using '|' as the delimiter
-                String parts[] =line.split("\\|");
+                String parts[] = line.split("\\|");
 
                 //ensure there are 5 parts in totall
-                if (parts.length==5){
+                if (parts.length == 5) {
                     LocalDate date = LocalDate.parse(parts[0]);
                     LocalTime time = LocalTime.parse(parts[1]);
                     String description = parts[2];
                     String vendor = parts[3];
                     double amount = Double.parseDouble(parts[4]);
 
-                    if ((date.isEqual(firstDayOfMonth) || date.isAfter(firstDayOfMonth)) && date.isBefore(today.plusDays(1))){
-                        Transaction transaction = new Transaction(date,time,description,vendor,amount);
+                    if ((date.isEqual(firstDayOfMonth) || date.isAfter(firstDayOfMonth)) && date.isBefore(today.plusDays(1))) {
+                        Transaction transaction = new Transaction(date, time, description, vendor, amount);
                         System.out.println(transaction);
                     }
 
-                    }
                 }
+            }
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -213,16 +212,43 @@ public class CashFlowCommander {
 
     }
 
-    public static void previousMonth(){
+    public static void previousMonth() {
 
-    }
-    public static void yearToDate(){
+        try (BufferedReader reader = new BufferedReader(new FileReader(finalPath))) {
 
-    }
-    public static void previousYear(){
+            String line;
 
-    }
-    public static void searchByVendor(){
+            LocalDate today = LocalDate.now();
+            LocalDate firstDayOfLastMonth = today.withDayOfMonth(1).minusDays(1);
+
+            //Read the file line by line
+            while ((line = reader.readLine()) != null) {
+
+                //split the line into parts using '|' as the delimiter
+                String parts[] = line.split("\\|");
+
+                //ensure there are 5 parts in total
+                if (parts.length == 5) {
+                    LocalDate date = LocalDate.parse(parts[0]);
+                    LocalTime time = LocalTime.parse(parts[1]);
+                    String description = parts[2];
+                    String vendor = parts[3];
+                    double amount = Double.parseDouble(parts[4]);
+
+                    if ((date.isBefore(firstDayOfLastMonth) || date.isAfter(firstDayOfLastMonth)) && (date.isEqual(firstDayOfLastMonth) || date.isBefore(firstDayOfLastMonth))) {
+                        Transaction transaction = new Transaction(date, time, description, vendor, amount);
+                        System.out.println(transaction);
+
+                    }
+
+
+                }
+
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
 
     }
 
