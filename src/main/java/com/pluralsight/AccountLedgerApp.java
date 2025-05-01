@@ -1,8 +1,8 @@
 package com.pluralsight;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Scanner;
+
 
 import static com.pluralsight.CashFlowCommander.*;
 
@@ -103,11 +103,12 @@ public class AccountLedgerApp {
 
         //capture the current date and time
         LocalDate date= LocalDate.now();
-        LocalTime time= LocalTime.now().withNano(0);
+        LocalTime time= LocalTime.now();
+
 
         Transaction transaction= new Transaction(date,time,description,vendor,amount);
 
-        saveTransactionToCsv(transaction);
+        recordTransaction(transaction);
 
     }
 
@@ -134,14 +135,10 @@ public class AccountLedgerApp {
 
         //capture the current date and time
         LocalDate paymentDate= LocalDate.now();
-        LocalTime paymentTime= LocalTime.now().withNano(0);
-
-
+        LocalTime paymentTime= LocalTime.now();
 
         Transaction transaction1 = new Transaction(paymentDate,paymentTime,paymentDescription,paymentVendor,paymentAmount);
-
-
-        saveTransactionToCsv(transaction1);
+        recordTransaction(transaction1);
 
         System.out.println("you successfully made a payment.");
 
@@ -193,8 +190,6 @@ public class AccountLedgerApp {
 
                 System.out.println("Returning to home menu...");
 
-
-
                 break;
 
             default:
@@ -225,12 +220,10 @@ public class AccountLedgerApp {
                 monthToDate();
                 break;
 
-
             case "2":
                 previousMonth();
 
                 break;
-
             case "3":
                 yearToDate();
 

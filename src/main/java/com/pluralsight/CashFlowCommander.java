@@ -3,8 +3,10 @@ package com.pluralsight;
 import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
+
 
 /**
  * cashFlowCommander is the main utility class for managing financial transactions.
@@ -27,22 +29,24 @@ public class CashFlowCommander {
 
     private static final String finalPath = "src/main/resources/transaction.csv";
 
-    //method to append a transaction to a csv file
-    public static void saveTransactionToCsv(Transaction transaction) {
+    /*
+    *Appends a single transaction to the csv file for permanent storage.
+    *each tramsaction is recorded on a new line in the following format
+    * formateddate,formatedtime,description,vendor,amount
+    * it uses a bufferWriter in append mode to keep existing data and add the new transaction at the end
+    * transaction is added to the end of the file
+     */
+    public static void recordTransaction(Transaction transaction) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(finalPath, true))) {
 
-            //create a line to write the transactions date in to csv format
-            String csvLine = transaction.getDate() + "|" +
-                    transaction.getTime() + "|" +
+
+                //write the transaction details to the file
+            writer.write(
+                    transaction.getDate() + "|" +
+                    transaction.getTime().withNano(0) + "|" +
                     transaction.getDescription() + "|" +
                     transaction.getVendor() + "|" +
-                    transaction.getAmount();
-
-
-            //write the formatted line to the csv file and move to a new line
-            writer.write(csvLine);
-            writer.newLine();   //Adds a new line after each entry
-
+                    transaction.getAmount() + "\n");
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -56,6 +60,8 @@ public class CashFlowCommander {
 
         //create an empity list to store transaction objects
         ArrayList<Transaction> transactions = new ArrayList<>();
+
+
         try {
 
             //initialize buffered reader to read file contents line by line.
@@ -73,11 +79,11 @@ public class CashFlowCommander {
                 if (parts.length == 5) {
 
                     //parse each parts into the appropriate data type
-                    LocalDate date = LocalDate.parse(parts[0]);             //transaction date
-                    LocalTime time = LocalTime.parse(parts[1]);            //transaction time
-                    String description = parts[2];                        //description of the transaction
-                    String vendor = parts[3];                            //vendor name
-                    double amount = Double.parseDouble(parts[4]);       //transaction amount
+                    LocalDate date = LocalDate.parse(parts[0]);                 //transaction date
+                    LocalTime time = LocalTime.parse(parts[1]).withNano(0);                //transaction time
+                    String description = parts[2];                            //description of the transaction
+                    String vendor = parts[3];                                //vendor name
+                    double amount = Double.parseDouble(parts[4]);           //transaction amount
 
                     //Create a transaction object using parsed values
                     Transaction transaction = new Transaction(date, time, description, vendor, amount);
@@ -126,12 +132,12 @@ public class CashFlowCommander {
         }
     }
 
-    /**
+    /*
      * Display all deposite transactions from the CVS file.
      * A deposite is considerd any transaction with a positive amount
      * uses the getTransaction() method to retrive all transactions.
      * then filters and prints only those with an amount greater than zero
-     **/
+     */
 
     public static void showDeposits() {
         System.out.println("List of deposits only...");
@@ -164,13 +170,13 @@ public class CashFlowCommander {
         }
 
     }
-    /**
+    /*
      * this method filters and displays only the payment transactions
      * A payment is identified by a nrgative amount in the transaction
      * it retrives the list of transactions from the CSV file using the getTransaction() method
      * it loops through each transaction and check if the amount is less than 0.
      * if the condition is true, it prints that transaction to the console.
-    **/
+    */
     public static void showPayment() {
         //inform the user that payment transaction are being displayed
         System.out.println("List of payments only...");
@@ -203,13 +209,13 @@ public class CashFlowCommander {
         }
     }
 
-    /**
+    /*
      * this method displays all transactions that occurred from the beginning of the current month up to today.
      * it gets todays date
      * it calculates the first day of the current month
      * the method retrives all transactions and loops through them.
      * it checks if the transaction date is on or after the first day of this month and before or on today.
-     **/
+     */
 
     public static void monthToDate() {
         System.out.println("Transactions from this month");
@@ -230,8 +236,8 @@ public class CashFlowCommander {
             LocalDate date = transaction.getDate();
 
             //check if the date is withn the current month
-            if ((date.isEqual(firstDayOfMonth) || date.isAfter(firstDayOfMonth)) &&
-                    date.isBefore(today.plusDays(1))) {
+            if ((!date.isBefore(firstDayOfMonth)  &&
+                    !date.isAfter(today))) {
 
                 System.out.println(transaction);
             }
@@ -265,8 +271,8 @@ public class CashFlowCommander {
 
             LocalDate date = transaction.getDate();
             //check if the date is within the previous month
-            if ((date.isEqual(firstDayOfLastMonth) || date.isAfter(firstDayOfLastMonth)) &&
-                    (date.isEqual(lastDayOfLastMonth) || date.isBefore(lastDayOfLastMonth))) {
+            if (!date.isBefore(firstDayOfLastMonth)  &&
+                    !date.isAfter(lastDayOfLastMonth)) {
 
                 //create a transaction object and print it
 
@@ -311,8 +317,7 @@ public class CashFlowCommander {
 
             //check if date is between first and last day of last year
 
-            if ((date.isEqual(firstDayOfLastYear) || date.isAfter(firstDayOfLastYear)) && (date.isEqual(lastDayOfLastYear) ||
-                    date.isBefore(lastDayOfLastYear))) {
+            if (!date.isBefore(firstDayOfLastYear)  && !date.isAfter(lastDayOfLastYear)) {
 
 
                 System.out.println(transaction);
@@ -391,7 +396,7 @@ public class CashFlowCommander {
             //check if date is between first and last day of last year
 
             if ((date.isEqual(firstDayOfYear) || date.isAfter(firstDayOfYear)) &&
-                    date.isBefore(today.plusDays(1))) {
+                   !date.isAfter(today)) {
 
 
                 System.out.println(transaction);

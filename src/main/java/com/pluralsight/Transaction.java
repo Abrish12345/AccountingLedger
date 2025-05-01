@@ -67,7 +67,7 @@ public class Transaction {
      // Instead of a weird memory address, it displays the transaction's details nicely.
 
 
-    // I got this code from ai
+    // I got this code from internet
    @Override
     public String toString(){
         return "Transaction{" +
@@ -75,8 +75,7 @@ public class Transaction {
                 " time=" + time + "|" +
                 "description='" + description + '\'' +  "|" +
                 "vendor='" + vendor + '\''+  "|" +
-                " amount=" + amount +  "|" +
-                '}';
+                " amount=" + amount +  "|" ;
     }
 
 
