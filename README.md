@@ -40,7 +40,19 @@ P) Payments
 R) Reports
 H) Home
 ```
-
+```
+Generating reports...
+You chose to view reports
+===================================
+Please chose a report option
+-----------------------------------
+1) Month To Date
+2) Previous Month
+3) Year To Date
+4) Previous Year
+5) Search By Vendor
+0) Back
+```
 
 ## Project Structure
 
