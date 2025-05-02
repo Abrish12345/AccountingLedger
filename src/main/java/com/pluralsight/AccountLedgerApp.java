@@ -219,6 +219,7 @@ public class AccountLedgerApp {
         System.out.println("3) Year To Date");
         System.out.println("4) Previous Year");
         System.out.println("5) Search By Vendor");
+        System.out.println("6) Show By Amount" );
         System.out.println("0) Back");
 
         String reportChoice=myScanner.nextLine().toUpperCase();
@@ -244,6 +245,10 @@ public class AccountLedgerApp {
             case "5":
                 byVendor();
 
+                break;
+
+            case"6":
+                showTransactionByAmount();
                 break;
             case "0":
 

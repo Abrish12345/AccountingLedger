@@ -1,5 +1,6 @@
 package com.pluralsight;
 
+import java.awt.im.InputMethodHighlight;
 import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -76,8 +77,8 @@ public class TransactionRepository {
                 if (parts.length == 5) {
 
                     //parse each parts into the appropriate data type
-                    LocalDate date = LocalDate.parse(parts[0]);                 //transaction date
-                    LocalTime time = LocalTime.parse(parts[1]).withNano(0);                //transaction time
+                    LocalDate date = LocalDate.parse(parts[0]);                          //transaction date
+                    LocalTime time = LocalTime.parse(parts[1]).withNano(0);//transaction time
                     String description = parts[2];                            //description of the transaction
                     String vendor = parts[3];                                //vendor name
                     double amount = Double.parseDouble(parts[4]);           //transaction amount
@@ -413,7 +414,52 @@ public class TransactionRepository {
         }
 
     }
+  public static void showTransactionByAmount(){
+        try {
+
+            //prompts the user for minimum amount
+            System.out.println("Enter the Minimum amount: ");
+            String minAmountStr = AccountLedgerApp.myScanner.nextLine();
+
+            //prompts the user for maximum amounts
+            System.out.println("Enter the Maximum amount: ");
+            String maxAmountStr = AccountLedgerApp.myScanner.nextLine();
+
+            //Convert the entered amounts to double
+            double minAmount = Double.parseDouble(minAmountStr);
+            double maxAmount = Double.parseDouble(maxAmountStr);
+
+            //retrive the list of transaction
+            ArrayList<Transaction> transactions = getTransaction();
+
+            System.out.println("Transaction between $" + minAmount + "and $" + maxAmount + ":");
+
+            //Iterate through each transaction in the list
+            for (int i = 0; i < transactions.size(); i++) {
+
+                //get the transaction at the current index in the list
+                Transaction transaction = transactions.get(i);
+
+                //comparse the transactions amount with the user specified range
+                if (transaction.getAmount() >= minAmount && transaction.getAmount() <= maxAmount) {
+
+                    System.out.println(transaction);
+
+                }
+            }
+        }catch (NumberFormatException e){
+
+            //handles invalid inpute if the user enters non numeric values for amounts
+            System.out.println("Invalid input!");
+
+        }catch (Exception e) {
+            //catches other errors (e.g file reading issues) and prints an error message
+            System.out.println("Error reading the file: " + e.getMessage());
+        }
+  }
 }
+
+
 
 
 

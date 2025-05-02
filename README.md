@@ -1,10 +1,11 @@
 # CashFlowCommander
-**CashFlowCommander** is a command-line Java application that helps users manage their financial transactions. 
+
+**CashFlowCommander** is a command-line Java application that helps users manage their financial transactions.
 It supports adding deposits and payments, and viewing filtered transaction reports like
 monthly, yearly, and custom date ranges.
 
-
 ## Features
+
 - Add **Deposits** and **Payments**
 - View **All Transactions**
 - Filter transactions:
@@ -14,6 +15,7 @@ monthly, yearly, and custom date ranges.
     - Previous Year
 - View only **Deposits** or only **Payments**
 - All transactions are saved in a CSV file
+
 ```
 =====================================
  
@@ -29,6 +31,7 @@ monthly, yearly, and custom date ranges.
  -------------------------------------
  Your choice: 
 ```
+
 ```
 You chose to view a ledger
 ===================================
@@ -40,6 +43,7 @@ P) Payments
 R) Reports
 H) Home
 ```
+
 ```
 Generating reports...
 You chose to view reports
@@ -68,7 +72,7 @@ Please chose a report option
 3. Click the green **Run** button or right-click → **Run 'AccountLedgerApp'**
 4. Follow the on-screen menu prompts to interact with your ledger
 
-##  To Do
+## To Do
 
 - Add delete/edit transaction feature
 - Export report summaries
