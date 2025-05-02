@@ -2,9 +2,13 @@ package com.pluralsight;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Scanner;
-
-
-import static com.pluralsight.CashFlowCommander.*;
+import static com.pluralsight.TransactionRepository.*;
+/*
+* Represents a single financial transaction (deposit or payment)
+* Stores date, time, description, vendor, and amount
+* used for recording and managing ledger entries
+* Supports saving and displaying transaction data
+ */
 
 public class AccountLedgerApp {
     private static final String finalPath = "src/main/resources/transaction.csv";
@@ -68,17 +72,17 @@ public class AccountLedgerApp {
     //making a payments, viewing the ledger, or exiting the application
     public static void displayMenu(){
 
-        System.out.println(" =====================================");
+        System.out.println(" \n========================================");
         System.out.println(" \n   *** CashFlowCommander ***");
         System.out.println(" Welcome to the CashFlowCommander App!");
-        System.out.println(" =====================================");
-        System.out.println(" Please choose an option:");
-        System.out.println(" -------------------------------------");
+        System.out.println(" ========================================");
+        System.out.println(" \nPlease choose an option:");
+        System.out.println(" ----------------------------------------");
         System.out.println(" D) Add Deposit!");
         System.out.println(" P) Make Payment (Debit)");
         System.out.println(" L) View Ledger");
         System.out.println(" X) Exit");
-        System.out.println(" -------------------------------------");
+        System.out.println(" ----------------------------------------");
         System.out.print(" Your choice: ");
     }
 
@@ -101,13 +105,14 @@ public class AccountLedgerApp {
 
         System.out.println("you successfully deposited to your account.");
 
-        //capture the current date and time
+        //capture the current date and time of the transaction
         LocalDate date= LocalDate.now();
         LocalTime time= LocalTime.now();
 
-
+        //create a new transaction object using the collected data
         Transaction transaction= new Transaction(date,time,description,vendor,amount);
 
+        //save transactions to storage file
         recordTransaction(transaction);
 
     }
@@ -137,7 +142,10 @@ public class AccountLedgerApp {
         LocalDate paymentDate= LocalDate.now();
         LocalTime paymentTime= LocalTime.now();
 
+
+        //create a new transaction object using the collected data
         Transaction transaction1 = new Transaction(paymentDate,paymentTime,paymentDescription,paymentVendor,paymentAmount);
+        //save transactions to storage file
         recordTransaction(transaction1);
 
         System.out.println("you successfully made a payment.");
@@ -147,12 +155,13 @@ public class AccountLedgerApp {
     public static void ledgerMenu(){
 
         //inform the user they selected the ledger option
-        System.out.println("You chose to view a ledger");
-        System.out.println("===================================");
+        System.out.println("\n========================================");
+        System.out.println("\nYou chose to view a ledger");
+        System.out.println("\n========================================");
 
         //show sub-menu option related to the ledger
-        System.out.println("Please chose an option");
-        System.out.println("-----------------------------------");
+        System.out.println("\nPlease chose an option");
+        System.out.println(" ----------------------------------------");
         System.out.println("A) All");
         System.out.println("D) Deposits");
         System.out.println("P) Payments");
@@ -160,11 +169,11 @@ public class AccountLedgerApp {
         System.out.println("H) Home");
 
         //Accept users input for ledger menu and convert to uppercase
-        String ledgerChoise = myScanner.nextLine().toUpperCase();
+        String ledgerChoice = myScanner.nextLine().toUpperCase();
 
 
         //Use a switch statement to handle different user choices
-        switch(ledgerChoise){
+        switch(ledgerChoice){
 
             //case for showing all transaction.
             case"A":
@@ -198,12 +207,13 @@ public class AccountLedgerApp {
 
     }
     public static void reportsMenu(){
-        System.out.println("You chose to view reports");
-        System.out.println("===================================");
+        System.out.println("\n========================================");
+        System.out.println("\nYou chose to view reports");
+        System.out.println("========================================");
 
         //show sub-menu option related to the reports
-        System.out.println("Please chose a report option");
-        System.out.println("-----------------------------------");
+        System.out.println("\nPlease chose a report option");
+        System.out.println(" ----------------------------------------");
         System.out.println("1) Month To Date");
         System.out.println("2) Previous Month");
         System.out.println("3) Year To Date");
@@ -229,7 +239,7 @@ public class AccountLedgerApp {
 
                 break;
             case "4":
-
+                previousYear();
                 break;
             case "5":
                 byVendor();

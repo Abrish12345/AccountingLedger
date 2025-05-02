@@ -3,6 +3,11 @@ package com.pluralsight;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+//Transaction: represents a financial transaction with essential details such as the date,time
+//description, vendor and amount
+//this class provides methods to get and set these details
+//allowing easy creation and manipulation of transaction records for financial tracking
+
 public class Transaction {
 
         //class properties that describes a transaction

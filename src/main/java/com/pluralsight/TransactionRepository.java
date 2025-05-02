@@ -3,9 +3,7 @@ package com.pluralsight;
 import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 
 /**
@@ -18,7 +16,7 @@ import java.util.Scanner;
  **/
 
 
-public class CashFlowCommander {
+public class TransactionRepository {
 
 //path to csv file where the transaction data will be saved
 
@@ -38,7 +36,6 @@ public class CashFlowCommander {
      */
     public static void recordTransaction(Transaction transaction) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(finalPath, true))) {
-
 
                 //write the transaction details to the file
             writer.write(
@@ -98,6 +95,16 @@ public class CashFlowCommander {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        //sort transactions first by date in decending order.
+        // if two transactions have the same date, sort them by time in decending order.
+        transactions.sort((t1,t2) -> {
+            if (t1.getDate().equals(t2.getDate())){
+                return t2.getTime().compareTo(t1.getTime());
+            }else {
+                return t2.getDate().compareTo(t1.getDate());
+            }
+        });
         //return the list of transactions read from the csv
         return transactions;
     }
@@ -317,7 +324,8 @@ public class CashFlowCommander {
 
             //check if date is between first and last day of last year
 
-            if (!date.isBefore(firstDayOfLastYear)  && !date.isAfter(lastDayOfLastYear)) {
+            if ((date.isEqual(firstDayOfLastYear) ||  date.isAfter(firstDayOfLastYear)) &&
+            (date.isEqual(lastDayOfLastYear) || date.isBefore(lastDayOfLastYear))){
 
 
                 System.out.println(transaction);
