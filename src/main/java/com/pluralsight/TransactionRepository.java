@@ -56,7 +56,7 @@ public class TransactionRepository {
     //Method that reads transactions from the CSV file and returns them as a list
     public static ArrayList<Transaction> getTransaction() {
 
-        //create an empity list to store transaction objects
+        //create an empity list to store transactions objects
         ArrayList<Transaction> transactions = new ArrayList<>();
 
 
@@ -241,6 +241,7 @@ public class TransactionRepository {
             //get the transaction at the current index in the list
             Transaction transaction = transactions.get(i);
 
+            //get the date of the transaction
             LocalDate date = transaction.getDate();
 
             //check if the date is withn the current month
@@ -434,7 +435,7 @@ public class TransactionRepository {
 
             System.out.println("Transaction between $" + minAmount + "and $" + maxAmount + ":");
 
-            //Iterate through each transaction in the list
+             //Iterate through each transaction in the list
             for (int i = 0; i < transactions.size(); i++) {
 
                 //get the transaction at the current index in the list

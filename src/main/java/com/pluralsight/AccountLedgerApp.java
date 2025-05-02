@@ -252,7 +252,7 @@ public class AccountLedgerApp {
                 break;
             case "0":
 
-                reportsMenu();
+                ledgerMenu();
 
                 break;
 
